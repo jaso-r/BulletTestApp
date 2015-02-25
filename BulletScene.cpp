@@ -53,6 +53,10 @@ void BulletScene::removeBody(btRigidBody* body)
 	dynamics->removeRigidBody(body);
 }
 
+// Adds a spring constraint between two rigid bodies.
+// The parameters of the spring (stiffness, damping, breaking, etc) are all hard
+// coded at the moment to be pretty decent for this application.  However, we
+// should probably refactor in the future to allow for more flexibility.
 void BulletScene::addSpring(btRigidBody* body, btRigidBody* constrainTo)
 {
 	btTransform tr;
@@ -76,6 +80,7 @@ void BulletScene::addSpring(btRigidBody* body, btRigidBody* constrainTo)
 	dynamics->addConstraint(spring, false);
 }
 
+// Checks to see if there is already a spring attached to the given rigid body.
 bool BulletScene::hasSpring(btRigidBody* body)
 {
 	bool springInMap = true;
@@ -90,6 +95,7 @@ bool BulletScene::hasSpring(btRigidBody* body)
 	return springInMap;
 }
 
+// Removes all spring contraints from the world.
 void BulletScene::clearSprings()
 {
 	for (std::unordered_map<btRigidBody*, btTypedConstraint*>::iterator it = springMap.begin(); it != springMap.end(); ++it)
